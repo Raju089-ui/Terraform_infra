@@ -4,6 +4,7 @@ variable "pip" {
       rg_name           = string
       rg_location       = string
       allocation_method = string
+      sku               = string
     }))
   
 }

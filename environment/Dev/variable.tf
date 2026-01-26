@@ -69,98 +69,99 @@ variable "bastion" {
 }
 variable "nsg" {
   type = map(object({
-    nsg_name            = string
-    nsg_location        = string
-    rg_name             = string
-    security_rules      = map(object({
-      name                          = string
-      priority                      = number
-      direction                     = string
-      access                        = string
-      protocol                      = string
-      destination_port_range        = string
+    nsg_name     = string
+    nsg_location = string
+    rg_name      = string
+    security_rules = map(object({
+      name                   = string
+      priority               = number
+      direction              = string
+      access                 = string
+      protocol               = string
+      destination_port_range = string
     }))
   }))
 }
 variable "nsg_association" {
   type = map(object({
-subnet_name = string
-vnet_name = string
-nsg_name = string
-rg_name = string
+    subnet_name = string
+    vnet_name   = string
+    nsg_name    = string
+    rg_name     = string
   }))
 }
 variable "loadbalancer" {
-    type = map(object({
-      lb_name = string
-      lb_location = string
-      rg_name = string
-      sku = string
-      subnet_name = string
-      vnet_name = string
-      backend_address_pool_name = string
-        probe_name = string
-        probe_port = number
-        lb_rule_name = string
-        protocol = string
-        frontend_port = number
-        backend_port = number
-      frontend_ip_configuration = map(object({
-        frontend_ipconfiname = string
-        private_ip_address_allocation = string
-      }))
+  type = map(object({
+    lb_name                   = string
+    lb_location               = string
+    rg_name                   = string
+    sku                       = string
+    subnet_name               = string
+    vnet_name                 = string
+    backend_address_pool_name = string
+    probe_name                = string
+    probe_port                = number
+    lb_rule_name              = string
+    protocol                  = string
+    frontend_port             = number
+    backend_port              = number
+    frontend_ip_configuration_name = string
+    frontend_ip_configuration = map(object({
+      frontend_ipconfiname          = string
+      private_ip_address_allocation = string
     }))
+  }))
 }
 variable "vm2_backend_attach" {
   type = map(object({
     ip_configuration_name = string
     nic_name              = string
-    loadbalancer_name     = string  
+    loadbalancer_name     = string
     backend_pool_name     = string
     rg_name               = string
   }))
-  
+
 }
 variable "appgateway" {
   type = map(object({
-    appgateway_name                = string
-    rg_name                        = string
-    rg_location                    = string
-    vnet_name                      = string
-    subnet_name                    = string
-    public_ip_name                 = string
-    sku                            = map(object({
+    appgateway_name = string
+    rg_name         = string
+    rg_location     = string
+    vnet_name       = string
+    subnet_name     = string
+    public_ip_name  = string
+    sku = map(object({
       sku_name     = string
       sku_tier     = string
       sku_capacity = number
     }))
-    gateway_ip_configuration       = map(object({
+    gateway_ip_configuration = map(object({
       gateway_ipname = string
     }))
-    frontend_port                  = map(object({
+    frontend_port = map(object({
       name = string
       port = number
     }))
-    frontend_ip_configuration      = map(object({
-      frontend_ipconfiname   = string
+    frontend_ip_configuration = map(object({
+      frontend_ipconfiname = string
     }))
-    backend_address_pool           = map(object({
-      aapgatway_backendpool_name  = string
+    backend_address_pool = map(object({
+      aapgatway_backendpool_name = string
     }))
-    backend_http_settings          = map(object({
-      http_name                  = string
-      cookie_based_affinity      = bool
+    backend_http_settings = map(object({
+      http_name             = string
+      cookie_based_affinity = string
     }))
-    http_listener                  = map(object({
-      listener_name                           = string
-      frontend_ip_configuration_name          = string
-      frontend_port_name                      = string
+    http_listener = map(object({
+      listener_name                  = string
+      frontend_ip_configuration_name = string
+      frontend_port_name             = string
     }))
-    request_routing_rule           = map(object({
-      routing_name                            = string
-      http_listener_name                      = string
-      backend_address_pool_name               = string
-      backend_http_settings_name              = string
+    request_routing_rule = map(object({
+      routing_name               = string
+      http_listener_name         = string
+      backend_address_pool_name  = string
+      backend_http_settings_name = string
 
     }))
 
@@ -169,10 +170,10 @@ variable "appgateway" {
 }
 variable "nic_aapgatway" {
   type = map(object({
-    ip_configuration_name   = string
-    nic_name                = string
-    rg_name                 = string
+    ip_configuration_name      = string
+    nic_name                   = string
+    rg_name                    = string
     aapgatway_backendpool_name = string
-    appgateway_name         = string
+    appgateway_name            = string
   }))
 }

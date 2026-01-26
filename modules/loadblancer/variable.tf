@@ -13,6 +13,7 @@ variable "loadbalancer" {
         protocol = string
         frontend_port = number
         backend_port = number
+        frontend_ip_configuration_name = string
       frontend_ip_configuration = map(object({
         frontend_ipconfiname = string
         private_ip_address_allocation = string

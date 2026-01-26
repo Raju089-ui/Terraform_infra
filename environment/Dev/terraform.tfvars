@@ -200,26 +200,35 @@ bastion = {
 }
 nsg = {
   nsg1 = {
-    nsg_name            = "nsg1"
-    nsg_location        = "westus"
-    rg_name             = "rg1"
-    security_rules      = {
+    nsg_name     = "nsg1"
+    nsg_location = "westus"
+    rg_name      = "rg1"
+    security_rules = {
       "rule1" = {
-        name                          = "rule1"
-        priority                      = 100
-        direction                     = "Inbound"
-        access                        = "Allow"
-        protocol                      = "Tcp"
-        destination_port_range        = "22"
+        name                   = "rule1"
+        priority               = 100
+        direction              = "Inbound"
+        access                 = "Allow"
+        protocol               = "Tcp"
+        destination_port_range = "22"
       }
       "rule2" = {
-        name                          = "rule2"
-        priority                      = 101
-        direction                     = "Inbound"
-        access                        = "Allow"
-        protocol                      = "Tcp"
-        destination_port_range        = "80"
+        name                   = "rule2"
+        priority               = 101
+        direction              = "Inbound"
+        access                 = "Allow"
+        protocol               = "Tcp"
+        destination_port_range = "80"
       }
+      "rule3" = {
+  name                       = "allow-azure-lb"
+  priority                   = 110
+  direction                  = "Inbound"
+  access                     = "Allow"
+  protocol                   = "*"
+  source_address_prefix      = "AzureLoadBalancer"
+  destination_port_range     = "*"
+}
     }
   }
 }
@@ -230,14 +239,8 @@ nsg_association = {
     nsg_name    = "nsg1"
     rg_name     = "rg1"
   }
-   "association2" = {
+  "association2" = {
     subnet_name = "subnet2"
-    vnet_name   = "vnet1"
-    nsg_name    = "nsg1"
-    rg_name     = "rg1"
-  }
-  "association3" = {
-    subnet_name = "subnet4"
     vnet_name   = "vnet1"
     nsg_name    = "nsg1"
     rg_name     = "rg1"
@@ -245,22 +248,23 @@ nsg_association = {
 }
 loadbalancer = {
   "lb1" = {
-    lb_name = "lb1"
-    lb_location = "westus"
-    rg_name = "rg1"
-    sku = "Standard"
-    subnet_name = "subnet1"
-    vnet_name = "vnet1"
+    lb_name                   = "lb1"
+    lb_location               = "westus"
+    rg_name                   = "rg1"
+    sku                       = "Standard"
+    subnet_name               = "subnet1"
+    vnet_name                 = "vnet1"
     backend_address_pool_name = "backendpool1"
-      probe_name = "healthprobe1"
-      probe_port = 80
-      lb_rule_name = "lbrule1"
-      protocol = "Tcp"
-      frontend_port = 80
-      backend_port = 80
+    probe_name                = "healthprobe1"
+    probe_port                = 80
+    lb_rule_name              = "lbrule1"
+    protocol                  = "Tcp"
+    frontend_port             = 80
+    backend_port              = 80
+    frontend_ip_configuration_name = "frontendconfig1"
     frontend_ip_configuration = {
       "frontendconfig1" = {
-        frontend_ipconfiname = "frontendconfig1"
+        frontend_ipconfiname          = "frontendconfig1"
         private_ip_address_allocation = "Dynamic"
       }
     }
@@ -269,7 +273,7 @@ loadbalancer = {
 vm2_backend_attach = {
   "attach1" = {
     ip_configuration_name = "ipconfig1"
-    nic_name              = "nic2"
+    nic_name              = "nic4"
     loadbalancer_name     = "lb1"
     backend_pool_name     = "backendpool1"
     rg_name               = "rg1"
@@ -277,70 +281,70 @@ vm2_backend_attach = {
 }
 appgateway = {
   "aap1" = {
-    appgateway_name                = "appgateway1"
-    rg_name                        = "rg1"
-    rg_location                    = "westus"
-    vnet_name                      = "vnet1"
-    subnet_name                    = "subnet4"
-    public_ip_name                 = "pip2"
-    sku                            = {
+    appgateway_name = "appgateway1"
+    rg_name         = "rg1"
+    rg_location     = "westus"
+    vnet_name       = "vnet1"
+    subnet_name     = "subnet4"
+    public_ip_name  = "pip2"
+    sku = {
       "sku1" = {
         sku_name     = "Standard_v2"
         sku_tier     = "Standard_v2"
         sku_capacity = 2
       }
     }
-    gateway_ip_configuration       = {
+    gateway_ip_configuration = {
       "gwipconfig1" = {
         gateway_ipname = "gwipconfig1"
       }
     }
-    frontend_port                  = {
+    frontend_port = {
       "frontendport1" = {
         name = "frontendport1"
         port = 80
       }
     }
-    frontend_ip_configuration      = {
+    frontend_ip_configuration = {
       "frontendipconfig1" = {
-        frontend_ipconfiname   = "frontendipconfig1"
+        frontend_ipconfiname = "frontendipconfig1"
       }
     }
-    backend_address_pool           = {
+    backend_address_pool = {
       "backendpool1" = {
-        aapgatway_backendpool_name  = "backendpool1"
+        aapgatway_backendpool_name = "backendpool1"
       }
     }
-    backend_http_settings          = {
+    backend_http_settings = {
       "httpsetting1" = {
-        http_name                  = "httpsetting1"
-        cookie_based_affinity      = false
+        http_name             = "httpsetting1"
+        cookie_based_affinity = "Enabled"
       }
     }
-    http_listener                  = {
+    http_listener = {
       "listener1" = {
-        listener_name                           = "listener1"
-        frontend_ip_configuration_name          = "frontendipconfig1"
-        frontend_port_name                      = "frontendport1"
+        listener_name                  = "listener1"
+        frontend_ip_configuration_name = "frontendipconfig1"
+        frontend_port_name             = "frontendport1"
       }
     }
-    request_routing_rule           = {
+    request_routing_rule = {
       "routingrule1" = {
-        routing_name                            = "routingrule1"
-        http_listener_name                      = "listener1"
-        backend_address_pool_name               = "backendpool1"
-        backend_http_settings_name              = "httpsetting1"
+        routing_name               = "routingrule1"
+        http_listener_name         = "listener1"
+        backend_address_pool_name  = "backendpool1"
+        backend_http_settings_name = "httpsetting1"
       }
     }
-    
+
   }
 }
 nic_aapgatway = {
   "nic1" = {
-    ip_configuration_name   = "ipconfig1"
-    nic_name                = "nic1"
-    rg_name                 = "rg1"
+    ip_configuration_name      = "ipconfig1"
+    nic_name                   = "nic1"
+    rg_name                    = "rg1"
     aapgatway_backendpool_name = "backendpool1"
-    appgateway_name         = "appgateway1"
+    appgateway_name            = "appgateway1"
   }
 }

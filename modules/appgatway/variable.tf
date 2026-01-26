@@ -26,7 +26,7 @@ variable "appgateway" {
     }))
     backend_http_settings          = map(object({
       http_name                  = string
-      cookie_based_affinity      = bool
+      cookie_based_affinity      = string
     }))
     http_listener                  = map(object({
       listener_name                           = string

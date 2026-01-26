@@ -33,7 +33,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb[each.key].id
   name                           = each.value.lb_rule_name
   protocol                       = each.value.protocol
-  frontend_port                  = each.value.fofrontend_port
+  frontend_port                  = each.value.frontend_port
   backend_port                   = each.value.backend_port
   frontend_ip_configuration_name = each.value.frontend_ip_configuration_name
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.pool1[each.key].id]

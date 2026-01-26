@@ -48,7 +48,7 @@ resource "azurerm_application_gateway" "appgateway" {
     for_each = each.value.backend_http_settings
     content {
       name                  = backend_http_settings.value.http_name
-      cookie_based_affinity = each.value.cookie_based_affinity
+      cookie_based_affinity = backend_http_settings.value.cookie_based_affinity
       path                  = "/path1/"
       port                  = 80
       protocol              = "Http"
